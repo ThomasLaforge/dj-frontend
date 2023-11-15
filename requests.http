@@ -1,0 +1,51 @@
+GET http://localhost:1337/api/musiques?populate=chanteur
+###
+GET http://localhost:1337/api/musiques?filters[favori][$eq]=true&populate=chanteur
+###
+GET http://localhost:1337/api/musiques?sort=createdAt:desc&populate=chanteur
+###
+GET http://localhost:1337/api/chanteurs
+###
+POST http://localhost:1337/api/chanteurs
+Content-Type: application/json
+
+{
+    "data": {
+        "nom": "Mozart",
+        "prenom": "Wolfgang Amadeus",
+        "date_naissance": "1756-01-27T00:00:00.000Z"
+    }
+}
+
+###
+POST http://localhost:1337/api/musiques
+Content-Type: application/json
+
+{
+    "data": {
+        "titre": "Symphonie n°40",
+        "couleur": "orange",
+        "chanteur": 1,
+        "date_sortie": "1788-07-25",
+        "lien_youtube": "https://www.youtube.com/watch?v=7LacDgCqzJ4",
+        "favori": false
+    }
+}
+
+###
+POST http://localhost:1337/api/auth/local
+Content-Type: application/json
+
+{
+    "identifier": "thomas.laforge.38@gmail.com",
+    "password": "HZz3ct4*VoX6fbzfE5!#Cgp@Fj!TFVzT"
+}
+
+###
+POST http://localhost:1337/api/auth/local
+Content-Type: application/json
+
+{
+    "identifier": "thomas.laforge.38@gmail.com",
+    "password": "HZz3cdsqdsqdsqdfsqft4*VoX6fbzfE5!#Cgp@Fj!TFVzT"
+}
