@@ -74,7 +74,7 @@ export default function AddMusic() {
             })
         })
         const data = await response.json()
-        if(data.id) {
+        if(data.data.id) {
             navigate('/home')
         }
         else {
