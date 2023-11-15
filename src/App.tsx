@@ -6,6 +6,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Home from './routes/Home'
 import Connexion from './routes/Connexion'
 import AddMusic from './routes/AddMusic'
+import ModifyMusic from './routes/ModifyMusic'
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: '/add-music',
     element: <AddMusic />
+  },
+  {
+    path: '/modify-music/:id',
+    element: <ModifyMusic />
   }
 ])
 

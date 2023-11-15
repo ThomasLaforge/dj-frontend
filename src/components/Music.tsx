@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 interface IMusicProps {
     title: string;
     color: string;
@@ -8,7 +10,13 @@ interface IMusicProps {
 }
 
 export default function Music(props: IMusicProps) {
-    return <div className="music" style={{backgroundColor: props.color}}>
+    const navigate = useNavigate()
+
+    const handleGoModifyMusic = () => {
+        navigate(`/modify-music/${props.id}`)
+    }
+
+    return <div className="music" style={{backgroundColor: props.color}} onClick={handleGoModifyMusic}>
             <div className="title">{props.title}</div>
             <div className="author">{props.author}</div>
             <div className="bottom-music">

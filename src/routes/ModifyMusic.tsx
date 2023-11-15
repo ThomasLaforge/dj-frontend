@@ -1,19 +1,10 @@
-import { useCallback, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { IAuthorData } from "./AddMusic";
+import { IMusicData } from "./Home";
 
-export interface IAuthorData {
-    id: number;
-    attributes: {
-        nom: string;
-        prenom: string;
-        date_naissance: string;
-        createdAt: string;
-        updatedAt: string;
-        publishedAt: string;
-    }
-}
-
-export default function AddMusic() {
+export default function ModifyMusic() {
+    
     const [title, setTitle] = useState<string>('')
     const [color, setColor] = useState<string>('')
     const [authors, setAuthors] = useState<IAuthorData[]>([])
@@ -21,6 +12,8 @@ export default function AddMusic() {
     const [url, setUrl] = useState<string>('')
     const [dateSortie, setDateSortie] = useState<string>('')
     const [favorite, setFavorite] = useState<boolean>(false)
+    
+    const { id } = useParams()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -30,6 +23,24 @@ export default function AddMusic() {
             setAuthors(data.data)
         }
         getAuthors()
+    }, [])
+
+    useEffect(() => {
+        const getMusic = async () => {
+            const response = await fetch(`http://localhost:1337/api/musiques/${id}?populate=chanteur`)
+            const data = await response.json()
+            const bigData = data.data as IMusicData
+            const musicData = bigData.attributes
+            const { chanteur } = musicData
+
+            setTitle(musicData.titre)
+            setColor(musicData.couleur)
+            setAuthor(chanteur.data.id)
+            setUrl(musicData.lien_youtube)
+            setDateSortie(musicData.date_sortie)
+            setFavorite(musicData.favori)
+        }
+        getMusic()
     }, [])
 
     const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,9 +67,9 @@ export default function AddMusic() {
         setDateSortie(event.target.value)
     }
 
-    const handleAddMusic = useCallback(async () => {
-        const response = await fetch('http://localhost:1337/api/musiques', {
-            method: 'POST',
+    const handleModifyMusic = useCallback( async () => {
+        const response = await fetch(`http://localhost:1337/api/musiques/${id}`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -77,17 +88,10 @@ export default function AddMusic() {
         if(data.data.id) {
             navigate('/home')
         }
-        else {
-            setTitle('')
-            setColor('')
-            setUrl('')
-            setFavorite(false)
-            setAuthor(0)
-            setDateSortie('')
-        }
-    }, [title, color, url, favorite, author, dateSortie, navigate])
+    }
+    , [title, color, author, url, dateSortie, favorite, navigate])
 
-    return <div className="add-music page">
+    return <div className="modify-music page">
         <div className="header">
             <h1>Ajouter une musique</h1>
         </div>
@@ -110,8 +114,7 @@ export default function AddMusic() {
             <label htmlFor="date_sortie">Date de sortie</label>
             <input type="date" required name="date_sortie" value={dateSortie} onChange={handleChangeDate}/>
 
-            <button onClick={handleAddMusic}>Ajouter une musique</button>
+            <button onClick={handleModifyMusic}>Modifier la musique</button>
         </div>
-
     </div>
 }

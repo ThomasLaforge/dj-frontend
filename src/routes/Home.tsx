@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import Music from "../components/Musique";
+import Music from "../components/Music";
 import { useEffect, useState } from "react";
 
-interface IMusicData {
+export interface IMusicData {
     id: number;
     attributes: {
         titre: string;

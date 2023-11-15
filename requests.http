@@ -1,5 +1,7 @@
 GET http://localhost:1337/api/musiques?populate=chanteur
 ###
+GET http://localhost:1337/api/musiques/2?populate=chanteur
+###
 GET http://localhost:1337/api/musiques?filters[favori][$eq]=true&populate=chanteur
 ###
 GET http://localhost:1337/api/musiques?sort=createdAt:desc&populate=chanteur
